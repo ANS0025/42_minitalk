@@ -1,82 +1,74 @@
-// CLIENT.C file
+#include "minitalk.h"
 
-/** global static int variable. it will help us note 
-*   when we stopped receiving signals
-*/
+static volatile	sig_atomic_t	g_receiver = 0;
 
-
-void sig_handler(int signum, siginfo_t* info, void* context)
+void	sig_handler(int signum, siginfo_t* info, void* context)
 {
-  /** 
-     *  create a variable static int i to count the numbers of bit read
-     *  void the args you are not using
-     *
-     *  change the global varaible to 1
-     *  if signum == SIGUSR2 
-     *     increment i
-     *  else if signum == SIGUSR1 
-      *    print the number of bytes recieved (NB: 8 bits = 1 byte)
-     */
+	static int i = 0;
+	(void)info;
+	(void)context;
+	g_receiver = 1;
+	if (signum == SIGUSR2)
+		i++;
+	else if (signum == SIGUSR1)
+	{
+		printf("Received %d bytes\n", i / 8);
+		i = 0;
+	}
 }
-
 
 int char_to_bin(char c, int pid)
 {
-  /** 
-     *  VARIABLES
-     *  
-     *  create a variable int itr
-     *  int bit_index to loop over each byte
-     *
-     *  initialise bit_index to 7 ie 0 -> 7 which will make 8 bits
-     *  create a while loop to loop bit by bit by decrementing from 7 to 0
-     * while(bit_idx >= 0)
-     *{
-          // initialize itr back to zero
-          // conversion
-          if ((c >> bit_index) & 1)
-              kill(pid, SIGUSR1);
-          else
-              kill(pid, SIGUSR2);
-          while (g_receiver == 0)
-          {
-             if (itr == 50) // wait for response after count of 50 (any number)
-             {
-                //print no response from server here and exit
-             }
-             // increment itr by 1
-             usleep(100); // gives enough time for each signal to be processed
-          }
-          // re-initialize g_receiver back to zero and decrement bit_index by 1
-         }
-         return (0);
-     */
+    int itr = 0;
+    int bit_index = 7;
+    while (bit_index >= 0)
+    {
+        itr = 0;
+        if ((c >> bit_index) & 1)
+            kill(pid, SIGUSR1);
+        else
+            kill(pid, SIGUSR2);
+        while (g_receiver == 0)
+        {
+            if (itr == 50)
+            {
+                printf("No response from server\n");
+                exit(EXIT_FAILURE);
+            }
+            itr++;
+            usleep(100);
+        }
+        g_receiver = 0;
+        bit_index--;
+    }
+    return (0);
 }
 
 int main(int argc, char* argv[])
 {
-  /** 
-   *  VARIABLES
-   *  create a struct for our sigaction
-   *  create a variable for each byte
-   *  then variable for the process identifier
-   *
-   *  SIGACTION
-   *  Check if the right number of argument is being passed
-   *  convert the servers pid argument from string to number
-          and save it to the process identifier variable
-   *  empty the signal numbers to prevent error 
-   *  -> u can use the sigemptyset. some people also use the memset func
-   *  set the appropraite flags for sigaction
-   *  also set the sig_handler func
-   *  call the sigaction function twice: with SIGUSR1 and SIGUSR2 respectively
-   *  you can handle the error for the function call,
-   *  where -1 means an error occurred
-   *  Handle each character of the string by looping over
-   *  and converting to binary using a function with a prototype of
-   *  int char_to_bin(char c, int pid) // note: c -> argv[2][byte_index++]
-   *  then outside the loop call the conversion function again but
-   *  this time pass '\0' as char. This is important in preparing 
-   *  the server for new feed of strings 
-   */
+    struct sigaction sa;
+    int byte_index = 0;
+    int pid;
+
+    if (argc != 3)
+    {
+        printf("Usage: %s [server PID] [message]\n", argv[0]);
+        return (1);
+    }
+    pid = atoi(argv[1]);
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = SA_SIGINFO;
+    sa.sa_sigaction = sig_handler;
+    if (sigaction(SIGUSR1, &sa, NULL) == -1 || sigaction(SIGUSR2, &sa, NULL) == -1)
+    {
+        printf("Error setting up signal handlers\n");
+        return (1);
+    }
+    while (argv[2][byte_index])
+    {
+        char_to_bin(argv[2][byte_index], pid);
+        byte_index++;
+    }
+    char_to_bin('\0', pid);
+    return (0);
 }
