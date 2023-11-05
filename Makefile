@@ -9,9 +9,15 @@ CC = cc
 SFILE = server.c
 CFILE = client.c
 
-all:
+all: $(LIBFTDIR)/$(LIBFTNAME) $(SERVER) $(CLIENT)
+
+$(LIBFTDIR)/$(LIBFTNAME):
 	make -C $(LIBFTDIR)
+
+$(SERVER): $(LIBFTDIR)/$(LIBFTNAME)
 	$(CC) $(CFLAGS) $(SFILE) $(LIBFTDIR)/$(LIBFTNAME) -o $(SERVER)
+
+$(CLIENT): $(LIBFTDIR)/$(LIBFTNAME)
 	$(CC) $(CFLAGS) $(CFILE) $(LIBFTDIR)/$(LIBFTNAME) -o $(CLIENT)
 
 clean:
