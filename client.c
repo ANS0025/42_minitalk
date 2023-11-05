@@ -6,7 +6,7 @@ void	server_check(int sig)
 	write(1, "Received the message\n", 22);
 }
 
-void	ctos(pid_t pid, char c)
+void	char_to_bin(pid_t pid, char c)
 {
 	static int	bit;
 
@@ -33,12 +33,12 @@ int	main(int argc, char **argv)
 		i = 0;
 		while (argv[2][i] != '\0')
 		{
-			ctos(pid, argv[2][i]);
+			char_to_bin(pid, argv[2][i]);
 			i++;
 		}
 		signal(SIGUSR2, server_check);
-		ctos(pid, '\n');
-		ctos(pid, '\0');
+		char_to_bin(pid, '\n');
+		char_to_bin(pid, '\0');
 	}
 	else
 	{

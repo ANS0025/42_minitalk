@@ -1,6 +1,6 @@
 #include "minitalk.h"
 
-void	stoc(int sig, siginfo_t *info, void *context)
+void	bin_to_char(int sig, siginfo_t *info, void *context)
 {
 	static int	bit;
 	static int	word;
@@ -35,7 +35,7 @@ int	main(int argc, char **argv)
 	ft_printf("PID : ");
 	pid = getpid();
 	ft_printf("%d\n", pid);
-	act.sa_sigaction = stoc;
+	act.sa_sigaction = bin_to_char;
 	act.sa_flags = 0;
 	while (argc == 1)
 	{
