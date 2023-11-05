@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akiseki <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/05 17:52:20 by akiseki           #+#    #+#             */
+/*   Updated: 2023/11/05 17:52:22 by akiseki          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
 
 void	server_check(int sig)
 {
 	(void)sig;
-	write(1, "Received the message\n", 22);
+	write(1, "Server has received the message\n", 33);
 }
 
 void	char_to_bin(pid_t pid, char c)
