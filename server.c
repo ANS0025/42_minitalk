@@ -41,14 +41,14 @@ int	main(int argc, char **argv)
 	(void)argv;
 	if (argc != 1)
 	{
-		ft_printf("No arguments needed!\n");
+		ft_printf("Error: No arguments needed\n");
 		return (1);
 	}
 	ft_printf("PID: ");
 	pid = getpid();
 	ft_printf("%d\n", pid);
 	action.sa_sigaction = bin_to_char;
-	action.sa_flags = 0;
+	action.sa_flags = SA_SIGINFO;
 	while (1)
 	{
 		sigaction(SIGUSR1, &action, NULL);

@@ -42,6 +42,11 @@ int	main(int argc, char **argv)
 	if (argc == 3)
 	{
 		pid = ft_atoi(argv[1]);
+		if (pid <= 0 || pid > INT_MAX)
+		{
+			ft_printf("ERROR: Invalid PID\n");
+			return (1);
+		}
 		i = 0;
 		while (argv[2][i] != '\0')
 		{
@@ -54,7 +59,7 @@ int	main(int argc, char **argv)
 	}
 	else
 	{
-		ft_printf("ERROR, Arguments passed	problem\n");
+		ft_printf("ERROR: Incorrect number of arguments\n");
 		return (1);
 	}
 	return (0);

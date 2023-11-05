@@ -27,3 +27,5 @@ clean:
 fclean: clean
 	make fclean -C $(LIBFTDIR)
 	rm -f $(SERVER) $(CLIENT)
+
+re: fclean all
