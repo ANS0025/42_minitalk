@@ -24,7 +24,7 @@ void	bin_to_char(int sig, siginfo_t *info, void *context)
 int	main(int argc, char **argv)
 {
 	int					pid;
-	struct sigaction	act;
+	struct sigaction	action;
 
 	(void)argv;
 	if (argc != 1)
@@ -35,12 +35,12 @@ int	main(int argc, char **argv)
 	ft_printf("PID : ");
 	pid = getpid();
 	ft_printf("%d\n", pid);
-	act.sa_sigaction = bin_to_char;
-	act.sa_flags = 0;
+	action.sa_sigaction = bin_to_char;
+	action.sa_flags = 0;
 	while (argc == 1)
 	{
-		sigaction(SIGUSR1, &act, NULL);
-		sigaction(SIGUSR2, &act, NULL);
+		sigaction(SIGUSR1, &action, NULL);
+		sigaction(SIGUSR2, &action, NULL);
 	}
 	return (0);
 }
