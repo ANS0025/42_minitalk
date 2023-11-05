@@ -39,28 +39,25 @@ int	main(int argc, char **argv)
 	int	i;
 	int	pid;
 
-	if (argc == 3)
-	{
-		pid = ft_atoi(argv[1]);
-		if (pid <= 0 || pid > INT_MAX)
-		{
-			ft_printf("ERROR: Invalid PID\n");
-			return (1);
-		}
-		i = 0;
-		while (argv[2][i] != '\0')
-		{
-			char_to_bin(pid, argv[2][i]);
-			i++;
-		}
-		signal(SIGUSR2, server_check);
-		char_to_bin(pid, '\n');
-		char_to_bin(pid, '\0');
-	}
-	else
+	if (argc != 3)
 	{
 		ft_printf("ERROR: Incorrect number of arguments\n");
 		return (1);
 	}
+	pid = atoi(argv[1]);
+	if (pid <= 0 || pid > INT_MAX)
+	{
+		ft_printf("ERROR: Invalid PID\n");
+		return (1);
+	}
+	i = 0;
+	while (argv[2][i])
+	{
+		char_to_bin(pid, argv[2][i]);
+		i++;
+	}
+	signal(SIGUSR2, server_check);
+	char_to_bin(pid, '\n');
+	char_to_bin(pid, '\0');
 	return (0);
 }
