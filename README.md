@@ -21,5 +21,9 @@ minitalkは、UNIXシグナルを使用してクライアントとサーバー�
 2. プロジェクトディレクトリに移動: ```cd 42_minitalk```
 3. コンパイル: ```make```
 4. サーバープロセスを起動: ```./server```
-5. クライアントプロセスからメッセージを送る: ```./client <サーバーのPID>　<メッセージ>```
+5. クライアントプロセスからメッセージを送る: ```./client <サーバーのPID>　<メッセージ>```  
 クライアントから送信したメッセージはサーバー側のプロセスに標準出力される
+
+## 参考
+- [Communicating between processes using signals](https://www.youtube.com/watch?v=PErrlOx3LYE&list=RDCMUC6qj_bPq6tQ6hLwOBpBQ42Q&start_radio=1&rv=PErrlOx3LYE&t=0)
+- [Understanding Signals in Linux System](https://www.youtube.com/watch?v=L3XuR-iRysU&list=PLysdvSvCcUhbrU3HhGhfQVbhjnN9GXCq4&index=43)
