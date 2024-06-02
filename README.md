@@ -1,8 +1,6 @@
 ## 概要
 minitalkは、UNIXシグナルを使用してクライアントとサーバー間で通信を行い、テキストのやりとりを可能にするプロジェクト。
 このプロジェクトは、42東京のカリキュラムの一部であり、学生がプロセス間通信の基本概念を理解することを目的としている。
-![image](https://github.com/ANS0025/42_minitalk/assets/75423028/c75ee3bc-e17c-4b2a-b202-360f78d4836f)
-
 
 ## プロジェクトの目的
 このプロジェクトの主な目的：
@@ -23,6 +21,7 @@ minitalkは、UNIXシグナルを使用してクライアントとサーバー�
 4. サーバープロセスを起動: ```./server```
 5. クライアントプロセスからメッセージを送る: ```./client <サーバーのPID>　<メッセージ>```  
 クライアントから送信したメッセージはサーバー側のプロセスに標準出力される
+![image](https://github.com/ANS0025/42_minitalk/assets/75423028/c75ee3bc-e17c-4b2a-b202-360f78d4836f)
 
 ## 参考
 - [Communicating between processes using signals](https://www.youtube.com/watch?v=PErrlOx3LYE&list=RDCMUC6qj_bPq6tQ6hLwOBpBQ42Q&start_radio=1&rv=PErrlOx3LYE&t=0)
